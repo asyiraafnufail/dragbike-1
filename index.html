@@ -23,13 +23,11 @@
         <button id="nav-signup-admin" class="btn">Sign Up Admin</button>
         <button id="nav-logout-admin" class="btn" style="display:none">Logout Admin</button>
       </div>
-
     </div>
   </nav>
 
   <main class="main-content flex-grow-1">
 
-    <!-- Beranda -->
     <section id="home-view">
       <h2 class="text-center">Yogyakarta Drag Bike Competition 2024</h2>
       <p class="text-center">Selamat datang di kompetisi drag bike terbesar di Yogyakarta! Daftarkan dirimu sekarang dan tunjukkan kecepatanmu di trek</p>
@@ -38,122 +36,97 @@
       </div>
     </section>
 
-    <!-- Form Pendaftaran -->
-<section id="register-view" class="bg-dark text-white py-4" style="display:none">
-  <h2 class="text-center mb-4">Formulir Pendaftaran</h2>
-  <form id="register-form" class="custom-form bg-dark text-white p-4 rounded shadow">
-    <div class="mb-3">
-      <label class="form-label text-white">Nama Peserta</label>
-      <input type="text" class="form-control bg-secondary text-white border-0" id="name" name="nama" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label text-white">Email</label>
-      <input type="email" class="form-control bg-secondary text-white border-0" id="email" name="email" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label text-white">Nomor Telepon</label>
-      <input type="tel" class="form-control bg-secondary text-white border-0" id="phone" name="no_telp" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label text-white">Merk/Model Motor</label>
-      <input type="text" class="form-control bg-secondary text-white border-0" id="bike" name="motor" required />
-    </div>
-    <div class="mb-4">
-      <label class="form-label text-white">Kategori Kelas</label>
-      <select class="form-select bg-secondary text-white border-0" id="category" name="kategori" required>
-        <option disabled selected>Pilih kategori</option>
-        <option value="FFA">FFA</option>
-        <option value="Bracket 6 detik">Bracket 6 detik</option>
-        <option value="Bracket 7 detik">Bracket 7 detik</option>
-        <option value="Bracket 8 detik">Bracket 8 detik</option>
-        <option value="Bracket 9 detik">Bracket 9 detik</option>
-        <option value="Bracket 10 detik">Bracket 10 detik</option>
-      </select>
-    </div>
-    <div class="text-center">
-      <button type="submit" class="btn btn-warning">Daftar</button>
-    </div>
-  </form>
-</section>
+    <section id="register-view" class="bg-dark text-white py-4" style="display:none">
+      <h2 class="text-center mb-4">Formulir Pendaftaran</h2>
+      <form id="register-form" class="custom-form bg-dark text-white p-4 rounded shadow">
+        <input type="hidden" id="participant-id" name="id">
+        <div class="mb-3">
+          <label class="form-label text-white">Nama Peserta</label>
+          <input type="text" class="form-control bg-secondary text-white border-0" id="name" name="nama" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-white">Email</label>
+          <input type="email" class="form-control bg-secondary text-white border-0" id="email" name="email" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-white">Nomor Telepon</label>
+          <input type="tel" class="form-control bg-secondary text-white border-0" id="phone" name="no_telp" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-white">Merk/Model Motor</label>
+          <input type="text" class="form-control bg-secondary text-white border-0" id="bike" name="motor" required />
+        </div>
+        <div class="mb-4">
+          <label class="form-label text-white">Kategori Kelas</label>
+          <select class="form-select bg-secondary text-white border-0" id="category" name="kategori" required>
+            <option value="" disabled selected>Pilih kategori</option>
+            <option value="FFA">FFA</option>
+            <option value="Bracket 6 detik">Bracket 6 detik</option>
+            <option value="Bracket 7 detik">Bracket 7 detik</option>
+            <option value="Bracket 8 detik">Bracket 8 detik</option>
+            <option value="Bracket 9 detik">Bracket 9 detik</option>
+            <option value="Bracket 10 detik">Bracket 10 detik</option>
+          </select>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-warning">Daftar</button>
+        </div>
+      </form>
+    </section>
 
-    <!-- Daftar Peserta -->
-<section id="list-view" style="display:none">
-  <h2 class="text-center">Daftar Peserta Terdaftar</h2>
-  <div id="participants-table-container" style="display: none;">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Nama</th>
-        <th>Email</th>
-        <th>Telepon</th>
-        <th>Motor</th>
-        <th>Kategori</th>
-        <th id="aksi-header">Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="participants-tbody"></tbody>
-  </table>
-</div>
-<div id="no-participants" style="display: none;">
-  <p>Belum ada peserta yang terdaftar.</p>
-</div>
+    <section id="list-view" style="display:none">
+      <h2 class="text-center">Daftar Peserta Terdaftar</h2>
+      <div id="participants-table-container">
+        <table class="table custom-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Telepon</th>
+              <th>Motor</th>
+              <th>Kategori</th>
+              <th id="aksi-header" style="display:none;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="participants-tbody"></tbody>
+        </table>
+      </div>
+      <div id="no-participants" class="no-participants" style="display: none;">Belum ada peserta yang mendaftar.</div>
+    </section>
 
-  <div id="participants-table-container" style="display:none;">
-    <table class="table custom-table">
-      <thead>
-  <tr>
-    <th>Nama</th>
-    <th>Email</th>
-    <th>Telepon</th>
-    <th>Motor</th>
-    <th>Kategori</th>
-    <th id="aksi-header">Aksi</th> <!-- ← ini penting -->
-  </tr>
-</thead>
+    <section id="login-admin-view" style="display:none">
+      <h2 class="text-center mb-4">Login Admin</h2>
+      <form id="login-admin-form" class="custom-form">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" name="username" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" required />
+        </div>
+        <button type="submit" class="btn-submit">Login</button>
+      </form>
+    </section>
 
-      <tbody id="participants-tbody"></tbody>
-    </table>
-  </div>
-  <div id="no-participants" class="no-participants">Belum ada peserta yang mendaftar.</div>
-</section>
-
-
-<!-- Login Admin -->
-<section id="login-admin-view" style="display:none">
-  <h2 class="text-center mb-4">Login Admin</h2>
-<form id="login-admin-form" class="custom-form">
-    <div class="mb-3">
-      <label class="form-label">Username</label>
-      <input type="text" class="form-control" name="username" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Password</label>
-      <input type="password" class="form-control" name="password" required />
-    </div>
-    <button type="submit" class="btn-submit">Login</button>
-  </form>
-</section>
-
-
-   <!-- Sign Up Admin -->
-<section id="signup-admin-view" style="display:none">
-  <h2 class="text-center">Sign Up Admin</h2>
-  <form id="signup-admin-form" class="custom-form">
-    <div class="mb-3">
-      <label class="form-label">Nama</label>
-      <input type="text" class="form-control" name="nama" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Username</label>
-      <input type="text" class="form-control" name="username" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Password</label>
-      <input type="password" class="form-control" name="password" required />
-    </div>
-    <button type="submit" class="btn btn-submit">Sign Up</button>
-  </form>
-</section>
+    <section id="signup-admin-view" style="display:none">
+      <h2 class="text-center">Sign Up Admin</h2>
+      <form id="signup-admin-form" class="custom-form">
+        <div class="mb-3">
+          <label class="form-label">Nama</label>
+          <input type="text" class="form-control" name="nama" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" name="username" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" required />
+        </div>
+        <button type="submit" class="btn btn-submit">Sign Up</button>
+      </form>
+    </section>
 
   </main>
 
@@ -161,7 +134,6 @@
     © 2024 Yogyakarta Drag Bike Competition. All rights reserved.
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
