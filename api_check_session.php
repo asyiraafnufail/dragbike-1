@@ -1,5 +1,4 @@
 <?php
-// api_check_session.php
 session_start();
 header('Content-Type: application/json');
 
