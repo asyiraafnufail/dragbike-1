@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($admin && password_verify($password, $admin['password'])) {
             $_SESSION['admin_logged_in'] = true;
             $_SESSION['admin_username'] = $admin['username'];
-            $response = ['success' => true, 'message' => 'Login berhasil!'];
+            $response = ['success' => true, 'message' => 'Welcome back, Admin!'];
         }
     } catch (\PDOException $e) {
         http_response_code(500);

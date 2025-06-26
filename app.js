@@ -1,4 +1,4 @@
-// app.js - DITULIS ULANG TOTAL
+// app.js - FIXED VERSION
 document.addEventListener('DOMContentLoaded', function () {
   // Global state
   let state = {
@@ -70,7 +70,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     tbody.innerHTML = '';
 
-    if (state.participants.length === 0) {
+    // Pastikan participants adalah array
+    if (!Array.isArray(state.participants) || state.participants.length === 0) {
       tableContainer.style.display = 'none';
       noData.style.display = 'block';
       return;
@@ -109,11 +110,23 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       const response = await fetch(API.GET_PESERTA);
       if (!response.ok) throw new Error('Gagal mengambil data peserta.');
-      state.participants = await response.json();
+      
+      const data = await response.json();
+      
+      // Pastikan data yang diterima adalah array
+      if (Array.isArray(data)) {
+        state.participants = data;
+      } else {
+        console.error('Data yang diterima bukan array:', data);
+        state.participants = [];
+      }
+      
       renderParticipants();
     } catch (error) {
-      console.error(error);
-      alert(error.message);
+      console.error('Error fetching participants:', error);
+      state.participants = [];
+      renderParticipants();
+      alert('Gagal mengambil data peserta: ' + error.message);
     }
   }
 
@@ -161,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
         await fetchParticipants(); // Refresh list
       } catch (error) {
         console.error(error);
-        alert(error.message);
+        alert('Gagal menghapus peserta: ' + error.message);
       }
     }
   }
@@ -171,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = e.target;
     const formData = new FormData(form);
     const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    
     submitBtn.disabled = true;
     submitBtn.textContent = 'Menyimpan...';
 
@@ -189,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
       alert(error.message);
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = state.editIndex !== null ? 'Update' : 'Daftar';
+      submitBtn.textContent = originalText;
     }
   });
   
@@ -202,8 +217,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const result = await response.json();
       if (!result.success) throw new Error(result.message);
       
-      alert('Login berhasil!');
+      alert('Welcome back, Admin!');
       state.isAdminLoggedIn = true;
+      form.reset();
       showView('list-view');
       renderUI();
       await fetchParticipants();
@@ -223,6 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!result.success) throw new Error(result.message);
       
       alert('Sign up berhasil! Silakan login.');
+      form.reset();
       showView('login-admin-view');
     } catch (error) {
       console.error(error);
@@ -249,13 +266,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('nav-logout-admin').addEventListener('click', async () => {
     try {
-      await fetch(API.LOGOUT);
+      await fetch(API.LOGOUT, { method: 'POST' });
       state.isAdminLoggedIn = false;
       alert('Logout berhasil.');
       showView('home-view');
       renderUI();
     } catch (error) {
-      console.error(error);
+      console.error('Error during logout:', error);
+      // Tetap logout meskipun ada error
+      state.isAdminLoggedIn = false;
+      showView('home-view');
+      renderUI();
     }
   });
 
@@ -263,6 +284,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function init() {
     showView('home-view');
     checkLoginStatus();
+    // Load participants data on start
+    fetchParticipants();
   }
 
   init();
